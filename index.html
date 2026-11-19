@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>One Year of Us</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap">
-<script>if(/Android|iPhone|iPod|iPad|Mobile/i.test(navigator.userAgent)||matchMedia('(hover:none) and (pointer:coarse)').matches)document.documentElement.classList.add('phone');if(Date.now()<new Date(2026,10,17,0,0,0).getTime())document.documentElement.classList.add('locked')</script>
 <style>
 :root{--bg:#faf5ee;--ink:#3a2a2e;--wine:#7a2e3f;--gold:#b08d57;--soft:#e9dccb;box-sizing:border-box}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -143,17 +142,7 @@ html.phone body{overflow:hidden}
 #gcopy{flex:none;background:var(--wine);color:#fffaf2;border:0;padding:13px 18px;font:500 13px 'Jost',sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
 #gate .dm{margin-top:30px;font-size:22px;font-weight:500;letter-spacing:.5em;text-indent:.5em;color:var(--gold)}
 #gate .h{margin-top:26px;color:var(--wine);font-size:22px;letter-spacing:.3em}
-#cdw{display:none;position:fixed;inset:0;z-index:60;place-items:center;padding:6vw;background:radial-gradient(ellipse at 50% 25%,#fffaf2,#eadfcd 80%)}
-html.locked #cdw{display:grid}
-html.phone #cdw{display:none!important}
-html.locked #intro,html.locked main,html.locked .mus{display:none!important}
-html.locked body{overflow:hidden}
-.cdwrap{display:grid;justify-items:center;gap:clamp(34px,6vw,64px);text-align:center;animation:gin 1.8s ease both}
-.cdc{display:flex;gap:clamp(12px,3vw,34px);justify-content:center}
-.cdc div{min-width:clamp(104px,19vw,240px);padding:clamp(22px,3.6vw,46px) 14px clamp(18px,3vw,36px);border:1px solid var(--gold);background:#fffdf8aa;box-shadow:0 20px 50px #3a2a2e1a}
-.cdc b{display:block;font:italic 500 clamp(60px,12vw,150px)/1 'Cormorant Garamond',Georgia,serif;color:var(--wine)}
-.cdc span{display:block;margin-top:16px;font-size:clamp(12px,1.3vw,16px);letter-spacing:.35em;text-indent:.35em;text-transform:uppercase;color:var(--gold)}
-.dmo{font-size:clamp(22px,2.6vw,32px);font-weight:500;letter-spacing:.5em;text-indent:.5em;color:var(--gold)}
+@media(max-width:520px){.count{gap:8px;flex-wrap:nowrap;padding:0 10px}.count div{min-width:0;flex:1;padding:14px 2px}.count b{font-size:34px}.count span{font-size:10px;letter-spacing:.14em}}
 </style></head><body>
 <div id="gate"><div class="g">
 <svg viewBox="0 0 120 80" fill="none" stroke="#b08d57" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="8" width="76" height="50" rx="4"/><path d="M8 66h104l-6 6H14z"/><path d="M60 46c-9-6-12-11-9-15 2-3 7-3 9 1 2-4 7-4 9-1 3 4 0 9-9 15z" stroke="#7a2e3f"/></svg>
@@ -161,10 +150,6 @@ html.locked body{overflow:hidden}
 <div class="ubox"><span id="gurl"></span><button id="gcopy" type="button">Copy</button></div>
 <p class="dm">DUMBO</p>
 <div class="h">&#9829;</div></div></div>
-<div id="cdw"><div class="cdwrap">
-<div class="cdc"><div><b id="cdh">00</b><span>Hours</span></div><div><b id="cdm">00</b><span>Minutes</span></div><div><b id="cds">00</b><span>Seconds</span></div></div>
-<div class="dmo">DUMBO</div>
-</div></div>
 <div id="intro">
   <div class="env" id="env">
     <div class="body"></div>
@@ -330,16 +315,7 @@ function startMusic(){if(bgm)return;var pick=SONGS[Math.floor(Math.random()*SONG
  var p=bgm.play();if(p)p.catch(function(){});setLvl(1000);mus.hidden=false}
 mus.onclick=function(){muted=!muted;mus.textContent=muted?'♪ Music off':'♪ Music on';setLvl()};
 new MutationObserver(function(){ducked=document.getElementById('bars').classList.contains('on');setLvl()}).observe(document.getElementById('bars'),{attributes:true});
-// the site stays locked until 17 November 2026, 12:00 am (viewer's local time); until then the countdown shows
-var UNLOCK=new Date(2026,10,17,0,0,0).getTime(),locked=document.documentElement.classList.contains('locked'),cdI;
-function startSite(){if(!document.documentElement.classList.contains('phone'))loadPhotos(build)}
-function pad2(n){return n<10?'0'+n:''+n}
-function cdTick(){var s=Math.max(0,Math.floor((UNLOCK-Date.now())/1000));
- document.getElementById('cdh').textContent=pad2(Math.floor(s/3600));
- document.getElementById('cdm').textContent=pad2(Math.floor(s%3600/60));
- document.getElementById('cds').textContent=pad2(s%60);
- if(s<=0&&locked){locked=false;clearInterval(cdI);document.documentElement.classList.remove('locked');startSite()}}
-if(locked){cdTick();cdI=setInterval(cdTick,250)}else startSite();
+if(!document.documentElement.classList.contains('phone'))loadPhotos(build);
 var tz=document.getElementById('tz'),pb=document.getElementById('pb'),tmsg=document.getElementById('tmsg'),au=document.getElementById('au'),unlocked=false,started=false,custom=false;
 function begin(){tmsg.textContent='It slipped away… catch it.';if(!started){started=true;setTimeout(startQ,1600)}}
 function dodge(){if(unlocked)return;var w=tz.clientWidth-pb.offsetWidth-24,h=tz.clientHeight-pb.offsetHeight-24;pb.style.left=(12+Math.random()*w)+'px';pb.style.top=(12+Math.random()*h)+'px';begin()}
